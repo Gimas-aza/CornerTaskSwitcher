@@ -12,14 +12,8 @@ namespace WinFunctionsOverview.FunctionsModules
     {
         public static void TrySwitchDesktops()
         {
-            if (isTrigerMenuOverview())
-            {
                 CheckMouseWheel();
-            }
         }
-
-        private static bool isTrigerMenuOverview() => 
-            ((GetAsyncKeyState(0x5B) & 0x8000) != 0) && ((GetAsyncKeyState(0x09) & 0x8000) != 0);
 
         private static void CheckMouseWheel()
         {
@@ -37,9 +31,6 @@ namespace WinFunctionsOverview.FunctionsModules
                 Console.WriteLine("Mouse wheel scrolled down");
             }
         }
-
-        [DllImport("user32.dll")]
-        static extern short GetAsyncKeyState(int vKey);
 
         [DllImport("user32.dll")]
         static extern IntPtr GetMessageExtraInfo();
