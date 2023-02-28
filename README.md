@@ -1,1 +1,1 @@
-# WinActiveCorners
+# CornerTaskSwitcher
