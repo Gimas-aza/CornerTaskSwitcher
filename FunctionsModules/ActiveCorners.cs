@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using MasterViewWindow;
-
-namespace WinActiveCorners.FunctionsModules
+﻿namespace CornerTaskSwitcher.FunctionsModules
 {
     internal class ActiveCorners
     {
@@ -27,27 +19,24 @@ namespace WinActiveCorners.FunctionsModules
             }
         }
 
-        [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(out Point lpPoint);
-
         public static void SetActiveCorners(Models.Settings ActiveCorners)
         {
 
             if (ActiveCorners.TopLeftScreen != "")
             {
-                Program.OnHotCornerStorage += CornersScreen.СheckTopLeftCorners;
+                Program.OnHotCornerStorage += CornersScreen.SetTopLeftCorners;
             }
             if (ActiveCorners.TopRightScreen != "")
             {
-                Program.OnHotCornerStorage += CornersScreen.СheckTopRightCorners;
+                Program.OnHotCornerStorage += CornersScreen.SetTopRightCorners;
             }
             if (ActiveCorners.BottomLeftScreen != "")
             {
-                Program.OnHotCornerStorage += CornersScreen.СheckBottomLeftCorners;
+                Program.OnHotCornerStorage += CornersScreen.SetBottomLeftCorners;
             }
             if (ActiveCorners.BottomRightScreen != "")
             {
-                Program.OnHotCornerStorage += CornersScreen.СheckBottomRightCorners;
+                Program.OnHotCornerStorage += CornersScreen.SetBottomRightCorners;
             }
         }
     }

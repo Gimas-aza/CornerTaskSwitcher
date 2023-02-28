@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WindowsInputLib.Native;
+﻿using WindowsInputLib.Native;
 using WindowsInputLib;
+using static CornerTaskSwitcher.Models.Win32;
 
-namespace WinActiveCorners.FunctionsModules
+namespace CornerTaskSwitcher.FunctionsModules
 {
     internal class CornersScreen
     {
         private static readonly bool[] _activeCorners = { false, false, false, false };
 
-        public static void СheckTopLeftCorners(Point cursorPosition)
+        public static void SetTopLeftCorners(Point cursorPosition)
         {
             int x = 15;
             int y = 15;
@@ -20,9 +16,9 @@ namespace WinActiveCorners.FunctionsModules
             bool isActiveCorner = (cursorPosition.X <= x && cursorPosition.Y <= y);
             int cornerNum = 0;
 
-            CheckCorners(isActiveCorner, cornerNum);
+            SetCorners(isActiveCorner, cornerNum);
         }
-        public static void СheckTopRightCorners(Point cursorPosition)
+        public static void SetTopRightCorners(Point cursorPosition)
         {
             int x = 1905;
             int y = 15;
@@ -30,9 +26,9 @@ namespace WinActiveCorners.FunctionsModules
             bool isActiveCorner = (cursorPosition.X >= x && cursorPosition.Y <= y);
             int cornerNum = 1;
 
-            CheckCorners(isActiveCorner, cornerNum);
+            SetCorners(isActiveCorner, cornerNum);
         }
-        public static void СheckBottomLeftCorners(Point cursorPosition)
+        public static void SetBottomLeftCorners(Point cursorPosition)
         {
             int x = 15;
             int y = 1065;
@@ -40,9 +36,9 @@ namespace WinActiveCorners.FunctionsModules
             bool isActiveCorner = (cursorPosition.X <= x && cursorPosition.Y >= y);
             int cornerNum = 2;
 
-            CheckCorners(isActiveCorner, cornerNum);
+            SetCorners(isActiveCorner, cornerNum);
         }
-        public static void СheckBottomRightCorners(Point cursorPosition)
+        public static void SetBottomRightCorners(Point cursorPosition)
         {
             int x = 1915;
             int y = 1075;
@@ -50,10 +46,10 @@ namespace WinActiveCorners.FunctionsModules
             bool isActiveCorner = (cursorPosition.X >= x && cursorPosition.Y >= y);
             int cornerNum = 3;
 
-            CheckCorners(isActiveCorner, cornerNum);
+            SetCorners(isActiveCorner, cornerNum);
         }
 
-        private static void CheckCorners(bool isActiveCorner, int cornerNum)
+        private static void SetCorners(bool isActiveCorner, int cornerNum)
         {
             if (isActiveCorner && !_activeCorners[cornerNum])
             {

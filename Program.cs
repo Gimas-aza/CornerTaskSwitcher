@@ -1,7 +1,8 @@
-﻿using WinActiveCorners.FunctionsModules;
-using WinFunctionsOverview.FunctionsModules;
+﻿using CornerTaskSwitcher.FunctionsModules;
+using CornerTaskSwitcher.Models;
+using static CornerTaskSwitcher.Models.Win32;
 
-namespace MasterViewWindow
+namespace CornerTaskSwitcher
 {
     internal class Program
     {
@@ -10,13 +11,14 @@ namespace MasterViewWindow
         static void Main(string[] args)
         {
             SetActiveCornersInScreen();
+            TaskView.Initialize();
 
             while (true)
             {
-                ActiveCorners.GetCursorPos(out Point cursorPos);
+                GetCursorPos(out Point cursorPos);
                 OnHotCornerStorage?.Invoke(cursorPos);
 
-                MenuOverview.TrySwitchDesktops();
+                TaskView.TrySwitchDesktops();
 
                 Thread.Sleep(300);
                 Console.Clear();
@@ -25,7 +27,7 @@ namespace MasterViewWindow
 
         private static void SetActiveCornersInScreen()
         {
-            var settingsActiveCorners = ActiveCorners.GetParserJson();
+            Settings settingsActiveCorners = ActiveCorners.GetParserJson();
             ActiveCorners.SetActiveCorners(settingsActiveCorners);
         }
     }
