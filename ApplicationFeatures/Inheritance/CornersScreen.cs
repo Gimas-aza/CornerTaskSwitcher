@@ -2,48 +2,48 @@
 using WindowsInputLib;
 using static CornerTaskSwitcher.Models.Win32;
 
-namespace CornerTaskSwitcher.FunctionsModules
+namespace CornerTaskSwitcher.ApplicationFeatures
 {
     internal class CornersScreen
     {
         private static readonly bool[] _activeCorners = { false, false, false, false };
 
-        public static void SetTopLeftCorners(Point cursorPosition)
+        protected static void SetTopLeftCorners(Point cursorPosition)
         {
             int x = 15;
             int y = 15;
 
-            bool isActiveCorner = (cursorPosition.X <= x && cursorPosition.Y <= y);
+            bool isActiveCorner = cursorPosition.X <= x && cursorPosition.Y <= y;
             int cornerNum = 0;
 
             SetCorners(isActiveCorner, cornerNum);
         }
-        public static void SetTopRightCorners(Point cursorPosition)
+        protected static void SetTopRightCorners(Point cursorPosition)
         {
             int x = 1905;
             int y = 15;
 
-            bool isActiveCorner = (cursorPosition.X >= x && cursorPosition.Y <= y);
+            bool isActiveCorner = cursorPosition.X >= x && cursorPosition.Y <= y;
             int cornerNum = 1;
 
             SetCorners(isActiveCorner, cornerNum);
         }
-        public static void SetBottomLeftCorners(Point cursorPosition)
+        protected static void SetBottomLeftCorners(Point cursorPosition)
         {
             int x = 15;
             int y = 1065;
 
-            bool isActiveCorner = (cursorPosition.X <= x && cursorPosition.Y >= y);
+            bool isActiveCorner = cursorPosition.X <= x && cursorPosition.Y >= y;
             int cornerNum = 2;
 
             SetCorners(isActiveCorner, cornerNum);
         }
-        public static void SetBottomRightCorners(Point cursorPosition)
+        protected static void SetBottomRightCorners(Point cursorPosition)
         {
             int x = 1915;
             int y = 1075;
 
-            bool isActiveCorner = (cursorPosition.X >= x && cursorPosition.Y >= y);
+            bool isActiveCorner = cursorPosition.X >= x && cursorPosition.Y >= y;
             int cornerNum = 3;
 
             SetCorners(isActiveCorner, cornerNum);

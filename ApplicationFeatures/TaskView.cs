@@ -1,13 +1,12 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Text;
 using WindowsInputLib;
 using WindowsInputLib.Native;
 using static CornerTaskSwitcher.Models.Win32;
 
-namespace CornerTaskSwitcher.FunctionsModules
+namespace CornerTaskSwitcher.ApplicationFeatures
 {
-    internal class TaskView
+    internal class TaskView : IApplicationFeatures
     {
         private static HookProcess _process;
         private static InputSimulator _inputSimulator;
@@ -20,22 +19,22 @@ namespace CornerTaskSwitcher.FunctionsModules
             set
             {
                 int intermediateValue = m_scrollAmount + value;
-                if (intermediateValue > m_scrollAmount && m_scrollAmount >= 0)
-                {
+                if ((intermediateValue > m_scrollAmount && m_scrollAmount >= 0) || 
+                    (intermediateValue < m_scrollAmount && m_scrollAmount <= 0))
                     m_scrollAmount = intermediateValue;
-                } 
-                else if (intermediateValue < m_scrollAmount && m_scrollAmount <= 0)
-                {
-                    m_scrollAmount = intermediateValue;
-                }
                 else
-                {
                     m_scrollAmount = value;
-                }
             }
         }
-        
-        public static void TrySwitchDesktops()
+
+        public static void Initialize()
+        {
+            SetHookOnMouseWheel();
+            _inputSimulator = new InputSimulator();
+            _mouseWheelSensitivity = (120 * 2) - 1;
+        }
+
+        public static void Update()
         {
             MSG msg;
 
@@ -46,26 +45,7 @@ namespace CornerTaskSwitcher.FunctionsModules
             }
         }
 
-        private static bool isOpenTaskView()
-        {
-            const int nChars = 256;
-            StringBuilder Buff = new StringBuilder(nChars);
-            IntPtr foreground = GetForegroundWindow();
-
-            if (GetWindowText(foreground, Buff, nChars) > 0)
-                if (Buff.ToString() == "Представление задач")
-                    return true;
-                
-            return false;
-        }
-        public static void Initialize() 
-        {
-            SetHookOnMouseWheel();
-            _inputSimulator = new InputSimulator();
-            _mouseWheelSensitivity = (120 * 2) - 1;
-        }
-
-        public static void SetHookOnMouseWheel()
+        private static void SetHookOnMouseWheel()
         {
             IntPtr module = GetModuleHandleA("user32.dll");
             _process = new HookProcess(MouseHookProcess);
@@ -100,6 +80,19 @@ namespace CornerTaskSwitcher.FunctionsModules
             }
 
             return CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
+        }
+
+        private static bool isOpenTaskView()
+        {
+            const int nChars = 256;
+            StringBuilder Buff = new StringBuilder(nChars);
+            IntPtr foreground = GetForegroundWindow();
+
+            if (GetWindowText(foreground, Buff, nChars) > 0)
+                if (Buff.ToString() == "Представление задач")
+                    return true;
+
+            return false;
         }
 
         private static void SwitchDesktop(VirtualKeyCode virtualKeyCode)

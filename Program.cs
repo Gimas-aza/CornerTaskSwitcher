@@ -1,34 +1,23 @@
-﻿using CornerTaskSwitcher.FunctionsModules;
-using CornerTaskSwitcher.Models;
-using static CornerTaskSwitcher.Models.Win32;
+﻿using CornerTaskSwitcher.ApplicationFeatures;
 
+// rename on CornerDesktopSwitcher
 namespace CornerTaskSwitcher
 {
     internal class Program
     {
-        public static event Action<Point>? OnHotCornerStorage;
-
         static void Main(string[] args)
         {
-            SetActiveCornersInScreen();
+            ActiveCorners.Initialize();
             TaskView.Initialize();
 
             while (true)
             {
-                GetCursorPos(out Point cursorPos);
-                OnHotCornerStorage?.Invoke(cursorPos);
+                ActiveCorners.Update();
 
-                TaskView.TrySwitchDesktops();
+                TaskView.Update();
 
                 Thread.Sleep(300);
-                Console.Clear();
             }
-        }
-
-        private static void SetActiveCornersInScreen()
-        {
-            Settings settingsActiveCorners = ActiveCorners.GetParserJson();
-            ActiveCorners.SetActiveCorners(settingsActiveCorners);
         }
     }
 }
